@@ -6,6 +6,8 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
+<!---the footers are not showing-->
 <script type="text/x-handlebars" data-template-name="todos">
 
   <section id="todoapp">
@@ -18,15 +20,21 @@
     <section id="main">
         <ul id="todo-list">
             {{#each itemController="todo"}}
-            <li {{bind-attr class="isCompleted:completed"}}>
-                {{input type="checkbox" checked=isCompleted class="toggle"}}
-                <label>{{title}}</label><button class="destroy"></button>
+            <li {{bind-attr class="isCompleted:completed isEditing:editing"}}>
+                {{#if isEditing}}
+                    {{edit-todo class="edit" value=title focus-out="acceptChanges"
+                                                insert-newline="acceptChanges"}}
+                {{else}}
+                    {{input type="checkbox" checked=isCompleted class="toggle"}}
+                     <label {{action "editTodo" on="doubleClick"}}>{{title}}</label><button class="destroy"></button>
+                {{/if}}
             </li>
             {{/each}}
         </ul>
 
         <input type="checkbox" id="toggle-all">
     </section>
+
 
     <footer id="footer">
         <span id="todo-count">
@@ -63,5 +71,9 @@
 <script src="js/models/todo.js"></script>
 <script src="js/controllers/todos_controller.js"></script>
 <script src="js/controllers/todo_controller.js"></script>
+<script src="js/views/edit_todo_view.js"></script>
+<!--- ... additional lines truncated for brevity ... -->
+
+
 </body>
 </html>
